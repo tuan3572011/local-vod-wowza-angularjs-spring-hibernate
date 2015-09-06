@@ -31,7 +31,9 @@ p.wrapBlock {
 				<div class="col-xs-12 col-md-6 col-lg-8">
 					<div style="height: 355px">
 						<p>
-							<button class="btn btn-primary">Trailer</button>
+							<a href='{{movie.trailer }}' data-toggle="lightbox"
+								data-gallery="youtubevideos" class="btn btn-success">
+								Trailer</a>
 							<button ng-if="hasBought == 'FAIL'"
 								data-ng-click="openRegisterDialog(movie)"
 								class="btn btn-primary">Mua</button>

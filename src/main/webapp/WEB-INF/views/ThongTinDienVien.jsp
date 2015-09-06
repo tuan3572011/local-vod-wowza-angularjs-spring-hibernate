@@ -1,36 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<div>
-	<table style="width: 70%;">
-		<tr>
-			<td><label style="color: #A78613;">Tên diễn viên</label><br>
-				<label> {{starring.name}}</label></td>
-		</tr>
-		<tr>
-			<td><label style="color: #A78613;">Ngày sinh</label><br> <label>{{starring.birthDay}}</label></td>
-		</tr>
-		<tr>
-			<td><label style="color: #A78613;">Nghề nghiệp</label><br>
-				<label>{{starring.job}}</label></td>
-		</tr>
-		<tr>
-			<td><label style="color: #A78613;">Quốc gia</label><br> <label>
-					{{starring.country}}</label></td>
-		</tr>
-		<tr>
-			<td><label style="color: #A78613;">Chiều cao</label><br> <label>
-					{{starring.height}}</label></td>
-		</tr>
-		<tr>
-			<td><label style="color: #A78613;">Cân nặng</label><br> <label>
-					{{starring.weight}}</label></td>
-		</tr>
-		<tr>
-			<td><label style="color: #A78613;">Sở thích</label><br> <label>
-					{{starring.hobby}}</label></td>
-		</tr>
-	</table>
+	<style>
+		.td-fix{
+			width:150px;
+			
+		}
+		
+		.borderless tbody tr td, .borderless thead tr th, .borderless tfoot tr td{
+			border: none;
+		}
+	</style>
+	
+	
+<div class="thumbnail" style="width: 1000px; margin:0 auto; margin-bottom:15px">
+	<div class="row">
+		<div class="col-xs-12 col-md-5">
+			<img alt="anh 1" src="{{starring.avatar}}" border="1px"
+				style="width: 100%; max-width: 325px; height: 370px;" />
 
-	<button ng-click="SearchFilm(starring.name)">Cac phim da
-		tham gia</button>
+		</div>
+		<div class="col-xs-12 col-md-7">
+			<table class="table table-striped borderless" style="border-color:white;">
+				<thead>
+					<tr>
+						<th colspan="2"><h3>
+								<label style="color: #dacb46;"> {{starring.name}}</label>
+							</h3></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="td-fix">Ngày sinh</td>
+						<td>{{starring.birthDay}}</td>
+					</tr>
+					<tr>
+						<td>Nghề nghiệp</td>
+						<td>{{starring.job}}</td>
+					</tr>
+					<tr>
+						<td>Quốc gia</td>
+						<td>{{starring.country}}</td>
+					</tr>
+					<tr>
+						<td>Chiều cao</td>
+						<td>{{starring.height}}</td>
+					</tr>
+					<tr>
+						<td>Cân nặng</td>
+						<td>{{starring.weight}}</td>
+					</tr>
+					<tr>
+						<td>Sở thích</td>
+						<td>{{starring.hobby}}</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>
+							<button class="btn btn-success"
+								ng-click="SearchFilm(starring.name)">Các phim đã tham
+								gia</button>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+
+
 </div>

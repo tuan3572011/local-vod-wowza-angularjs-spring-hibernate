@@ -69,6 +69,7 @@ public class DataUploadUtility {
 					GEN_KEY_FILE);
 			File localFile = new File(fileUpLoadPath);
 			String pathToSaveInServer = HOME_DIR_IN_EC2;
+
 			boolean isTranferGenKeyCommandFileOk = transferDataToEc2UsingScp(session, localFile, localFile.getName(),
 					pathToSaveInServer, new byte[500]);
 			logger.info("Transfer key ok " + isTranferGenKeyCommandFileOk);

@@ -29,7 +29,9 @@ p.wrapBlock {
 				<div class="col-xs-12 col-md-6 col-lg-8">
 					<div style="height: 355px">
 						<p>
-							<button class="btn btn-primary">Trailer</button>
+							<a href='{{movie.trailer }}' data-toggle="lightbox"
+								data-gallery="youtubevideos" class="btn btn-success">
+								Trailer</a>
 							<button ng-if="hasBought == 'FAIL'"
 								data-ng-click="openRegisterDialog(movie)"
 								class="btn btn-primary">Mua</button>
@@ -55,14 +57,14 @@ p.wrapBlock {
 							</tr>
 							<tr>
 								<td><label style="color: #A78613;">Quốc gia</label><br>
-									<label ng-repeat="country in movie.countries">{{country.name}}, 
+									<label ng-repeat="country in movie.countries">{{country.name}},
 								</label></td>
 								<td><label style="color: #A78613;">Năm sản xuất</label><br>
 									<label>{{movie.publishedYear}}</label></td>
 							</tr>
 							<tr>
 								<td><label style="color: #A78613;">Thể loại</label><br>
-									<label ng-repeat="category in movie.categories">{{category.name}}, 
+									<label ng-repeat="category in movie.categories">{{category.name}},
 								</label></td>
 								<td><label style="color: #A78613;">Đạo diễn</label><br>
 									<label>{{movie.director.name}}</label></td>
@@ -72,9 +74,8 @@ p.wrapBlock {
 										tập tiếp theo:</label><br>
 									<div style="position: relative;"
 										ng-repeat="episode in episodes">
-										<button style="float: left;margin-right:3px"
-											data-ng-click="CheckRegisterEpisode(episode)"
-											class="btn">{{episode.noEpisode}}</button>
+										<button style="float: left; margin-right: 3px"
+											data-ng-click="CheckRegisterEpisode(episode)" class="btn">{{episode.noEpisode}}</button>
 									</div></td>
 							</tr>
 						</table>
@@ -142,14 +143,15 @@ p.wrapBlock {
 												});
 									</script>
 								</div>
-							<div class="col-xs-12 col-md-6  col-lg-1" style="height: 100px">
-								<a class="right carousel-control" href=""
-									style="background-image: none; padding-right: 70px"
-									ng-click="nextStarring()" role="button" data-slide="next">
-									<span class="glyphicon glyphicon-chevron-right config-carousel"
-									aria-hidden="true"></span> <span class="sr-only">Next</span>
-								</a>
-							</div>
+								<div class="col-xs-12 col-md-6  col-lg-1" style="height: 100px">
+									<a class="right carousel-control" href=""
+										style="background-image: none; padding-right: 70px"
+										ng-click="nextStarring()" role="button" data-slide="next">
+										<span
+										class="glyphicon glyphicon-chevron-right config-carousel"
+										aria-hidden="true"></span> <span class="sr-only">Next</span>
+									</a>
+								</div>
 							</div>
 
 						</div>
@@ -214,7 +216,7 @@ p.wrapBlock {
 	<!-- end Phim Liên Quan -->
 
 	<!-- Phim hot -->
-	<article ng-controller="FilmRedirectController" >
+	<article ng-controller="FilmRedirectController">
 		<div class="thumbnail thumb-fix2">
 			<fieldset>
 				<legend>
@@ -224,7 +226,8 @@ p.wrapBlock {
 					<div class="col-lg-2 col2-fix" ng-repeat="movie in hotMovies">
 						<div class="image-container">
 							<div class="capt-fix-act2">
-								<div style="cursor:pointer;" class="caption img-detail" ng-click="Redirect(movie.id,movie.type)">
+								<div style="cursor: pointer;" class="caption img-detail"
+									ng-click="Redirect(movie.id,movie.type)">
 									<h4>{{movie.vnName}}</h4>
 									<!-- /.modal-content -->
 								</div>

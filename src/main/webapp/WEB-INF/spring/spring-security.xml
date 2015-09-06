@@ -1,0 +1,43 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<!-- enable use-expressions -->
+	<http realm="Protected API" use-expressions="true" auto-config="false"
+		create-session="stateless" entry-point-ref="unauthorizedEntryPoint"
+		authentication-manager-ref="authenticationManager">
+		<custom-filter ref="authenticationTokenProcessingFilter"
+			after="FORM_LOGIN_FILTER" />
+		<!-- <intercept-url pattern="/PhimBoController/layout" access="hasRole('ROLE_ADMIN')" 
+			/> -->
+		<!-- <intercept-url pattern="/PhimLeController/layout" access="hasRole('ROLE_USER')" 
+			/> -->
+	</http>
+
+	<authentication-manager id="authenticationManager">
+		<authentication-provider user-service-ref="loginService">
+
+			<!-- <password-encoder ref="passwordEncoder"></password-encoder> -->
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean id="unauthorizedEntryPoint"
+		class="vn.edu.hcmuaf.security.UnauthorizedEntryPoint"></beans:bean>
+
+	<beans:bean id="authenticationTokenProcessingFilter"
+		class="vn.edu.hcmuaf.security.AuthenticationTokenProcessingFilter">
+		<beans:constructor-arg ref="loginService"></beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="passwordEncoder"
+		class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+		<beans:constructor-arg value="secretkey" />
+	</beans:bean>
+
+	<beans:bean id="loginService" class="vn.edu.hcmuaf.service.LoginServiceImpl">
+	</beans:bean>
+
+</beans:beans>

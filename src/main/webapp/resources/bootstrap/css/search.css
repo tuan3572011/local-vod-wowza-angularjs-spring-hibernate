@@ -1,0 +1,100 @@
+.popup-search {
+	padding: 10px 10px;
+	position: absolute;
+	top: 37px;
+	left: -7px;
+	width: 330px;}
+
+.popup-search-in {
+	padding: 5px 10px 5px 15px;
+	background: white;
+	border:1px solid #ccc;
+	width: 95%
+}
+.suggestsearch {
+	display: block;
+	width: 100%
+;
+	padding-left: 10px;
+}
+
+.suggestsearch li {
+	display: block;
+	padding: 5px 0;
+	font-size: 14px;
+	font-family: Arial;
+	color: #f5cc2a;
+	line-height: 1.4em;
+	margin: 0;
+	text-align: left;
+	width: 100%
+}
+
+.suggestsearch li a {
+	padding: 0;
+	margin: 0
+}
+
+.suggestsearch li a .backdropsearch {
+	width: 64px;
+	height: 35px;
+	display: inline-block;
+	margin: 3px 7px 3px 0;
+	overflow: hidden
+}
+
+.suggestsearch li a .backdropsearch img {
+	width: 64px;
+	height: auto
+}
+
+.suggestsearch li a {
+	display: block;
+	margin: 2px 0;
+	clear: both;
+	font-size: 14px;
+	font-family: Arial
+}
+
+.suggestsearch li a .ttl-moviesearch {
+	display: inline-block;
+	line-height: 1.6em;
+	width: 133px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 12.5px
+;
+	margin-left: 20px;
+}
+
+.suggestsearch li a .ttl-moviesearch span {
+	display: block;
+	color: #9d9d9d;
+	font-size: 11px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap
+}
+
+.suggestsearch li a.searchall {
+	background: url(images/icon_childparenthover.png) right center no-repeat;
+	padding-right: 10px;
+	font-size: 12.5px;
+	font-family: Arial
+}
+.cf:after {
+	content: ".";
+	display: block;
+	clear: both;
+	height: 0;
+	visibility: hidden
+}
+
+.cf {
+	min-height: 1px
+}
+
+* html .cf {
+	height: 1px
+}

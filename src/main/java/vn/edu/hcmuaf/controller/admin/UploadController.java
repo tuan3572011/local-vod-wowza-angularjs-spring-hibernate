@@ -35,7 +35,7 @@ public class UploadController {
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 
 	private static final String TRAILER_IMAGE_UPLOAD_PATH = ConfigServiceAndDBAddress.imageServerAddress;
-	private static final String IMAGE_PATH_SERVER = "D:\\VODProject\\images";
+	private static final String IMAGE_PATH_SERVER = "E:\\VODProject\\images";
 	private String video_upload_secret_key = "";
 
 	@RequestMapping("/Image/Layout")

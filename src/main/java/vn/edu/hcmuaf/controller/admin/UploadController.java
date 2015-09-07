@@ -32,10 +32,11 @@ import com.jcraft.jsch.UserInfo;
 @Controller
 @RequestMapping("/UploadController")
 public class UploadController {
-	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(UploadController.class);
 
 	private static final String TRAILER_IMAGE_UPLOAD_PATH = ConfigServiceAndDBAddress.imageServerAddress;
-	private static final String IMAGE_PATH_SERVER = "E:\\VODProject\\images";
+	private static final String IMAGE_PATH_SERVER = ConfigServiceAndDBAddress.imagePathInServer;
 	private String video_upload_secret_key = "";
 
 	@RequestMapping("/Image/Layout")
@@ -54,8 +55,8 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "/Image/Save", method = RequestMethod.POST)
-	public String doUploadImage(@RequestParam("image") MultipartFile multipart, Map<String, Object> map)
-			throws IOException {
+	public String doUploadImage(@RequestParam("image") MultipartFile multipart,
+			Map<String, Object> map) throws IOException {
 		logger.info("save image");
 		File folder = new File(IMAGE_PATH_SERVER);
 		boolean isOK = true;
@@ -63,7 +64,8 @@ public class UploadController {
 		if (!multipart.isEmpty()) {
 			try {
 				String originName = multipart.getOriginalFilename();
-				String imageType = originName.substring(originName.length() - 3);
+				String imageType = originName
+						.substring(originName.length() - 3);
 
 				// neu kieu anh ko dung voi anh goc
 				name = this.randomName() + "." + imageType;
@@ -98,8 +100,9 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "/Film/Save", method = RequestMethod.POST)
-	public String doUploadFilm(@RequestParam("film") MultipartFile multipartFilm, Map<String, Object> map)
-			throws IOException {
+	public String doUploadFilm(
+			@RequestParam("film") MultipartFile multipartFilm,
+			Map<String, Object> map) throws IOException {
 		InputStream videoInputStream = null;
 		InputStream keyInputStream = null;
 		if (!multipartFilm.isEmpty()) {
@@ -110,7 +113,8 @@ public class UploadController {
 				// validate video name
 				String videoName = this.randomName() + ".mp4";
 				logger.info("begin upto wowza");
-				boolean isOK = this.uploadDataToWowza(hostAndUser, videoInputStream, videoName, keyInputStream);
+				boolean isOK = this.uploadDataToWowza(hostAndUser,
+						videoInputStream, videoName, keyInputStream);
 				logger.info("end upto wowza");
 				if (isOK) {
 					map.put("message", videoName);
@@ -128,38 +132,47 @@ public class UploadController {
 		return "UploadFilm";
 	}
 
-	private boolean uploadDataToWowza(String hostAndUser, InputStream videoInputStream, String videoName,
+	private boolean uploadDataToWowza(String hostAndUser,
+			InputStream videoInputStream, String videoName,
 			InputStream keyInputStream) {
 
 		// get key path
-		String pathToKey = ResourcesFolderUtility.getPathFromResourceFolder(UploadController.class, "vod1.pem");
+		String pathToKey = ResourcesFolderUtility.getPathFromResourceFolder(
+				UploadController.class, "vod1.pem");
 		logger.info(pathToKey);
 		// open jsch session
 		Session jschSession = null;
 		try {
 			jschSession = getJschSession(pathToKey, hostAndUser);
+			logger.info(pathToKey + "----" + hostAndUser);
 			jschSession.connect();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
+		// tranfer genkey file to server
+		DataUploadUtility.transferGenKeyFileToEC2(jschSession);
 		// upload video using this session
 		logger.info(jschSession.getHost() + jschSession.getUserName());
-		DataUploadUtility.uploadVideoToWowza(jschSession, videoName, videoInputStream, keyInputStream);
+		DataUploadUtility.uploadVideoToWowza(jschSession, videoName,
+				videoInputStream, keyInputStream);
 		logger.info("end upload video");
 		// generate key and read key from server
-		video_upload_secret_key = DataUploadUtility.generateAndReadVideoKeyFromEc2(jschSession, videoName);
+		video_upload_secret_key = DataUploadUtility
+				.generateAndReadVideoKeyFromEc2(jschSession, videoName);
 		// close session
-		jschSession.disconnect();
+
 		logger.info("session close");
 		if (video_upload_secret_key.isEmpty()) {
+			jschSession.disconnect();
 			return false;
 		} else {
-			// jschSession.disconnect();
+			jschSession.disconnect();
 			return true;
 		}
 	}
 
-	private static Session getJschSession(String pathToKey, String hostAndUser) throws JSchException {
+	private static Session getJschSession(String pathToKey, String hostAndUser)
+			throws JSchException {
 		String[] hostAndUserArr = hostAndUser.split("@");
 		if (hostAndUserArr.length != 2)
 			return null;
@@ -169,8 +182,8 @@ public class UploadController {
 
 		JSch jsch = new JSch();
 		Session session = null;
-		jsch.addIdentity(pathToKey);
 		session = jsch.getSession(user, host, port);
+		session.setPassword("123qweqwe");
 		session.setUserInfo(new UserInfo() {
 			@Override
 			public void showMessage(String arg0) {

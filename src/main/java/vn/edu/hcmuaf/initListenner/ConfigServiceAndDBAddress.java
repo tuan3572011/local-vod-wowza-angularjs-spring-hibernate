@@ -22,6 +22,7 @@ public class ConfigServiceAndDBAddress implements ServletContextListener {
 	public static String streamingServerAddress = "";
 	public static String resfulServerAddress = "";
 	public static String imageServerAddress = "";
+	public static String imagePathInServer="";
 
 	private Logger logger = LoggerFactory.getLogger(ConfigServiceAndDBAddress.class);
 
@@ -56,6 +57,7 @@ public class ConfigServiceAndDBAddress implements ServletContextListener {
 		streamingServerAddress = properties.getProperty("StreamingServerAddress").trim();
 		resfulServerAddress = properties.getProperty("ResfulServerAddress").trim();
 		imageServerAddress = properties.getProperty("ImageServerAddress").trim();
+		imagePathInServer= properties.getProperty("ImagePathInServer").trim();
 
 		System.out.println("IP ADDRESS OF ALL SERVER" + streamingServerAddress + resfulServerAddress
 				+ imageServerAddress);

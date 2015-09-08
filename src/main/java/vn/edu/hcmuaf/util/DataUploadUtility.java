@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import vn.edu.hcmuaf.controller.admin.UploadController;
+import vn.edu.hcmuaf.initListenner.ConfigServiceAndDBAddress;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
@@ -28,12 +28,12 @@ public class DataUploadUtility {
 	private static final Logger logger = LoggerFactory
 			.getLogger(DataUploadUtility.class);
 	private static final String VIDEO_DIR_IN_EC2 = "/usr/local/WowzaStreamingEngine/content";
-	private static final String HOME_DIR_IN_EC2 = "/home/ec2-user/";
 	private static final String KEY_DIR_IN_EC2 = "/usr/local/WowzaStreamingEngine/keys/";
-	private static final String GEN_KEY_FILE = "genkeyWowzaCommand.sh";
+	private static final String GEN_KEY_FILE = "genkey.sh";
 	private static final String XML_HEADER = "\'<?xml version=\"1.0\" encoding=\"UTF-8\"?>\'";
 	private static final String BITRATE_720 = "1350000";
-	private static final String BITRATE_480 = "850000";
+	private static final String BITRATE_480 = "600000";
+	private static String GET_KEY_ADDRESS = ConfigServiceAndDBAddress.urlGetKey;
 
 	// http://flash.flowplayer.org/demos/plugins/streaming/bwcheck-smil.html
 
@@ -83,7 +83,7 @@ public class DataUploadUtility {
 			logger.info("Begin read key file");
 			// read key of this video
 			ChannelSftp sftpChannel = (ChannelSftp) session.openChannel("sftp");
-			logger.info("session"+ session);
+			logger.info("session" + session);
 			sftpChannel.connect();
 			String keyLocation = KEY_DIR_IN_EC2 + videoName + ".key";
 			logger.info(keyLocation);
@@ -114,40 +114,38 @@ public class DataUploadUtility {
 		return "";
 	}
 
-	public static boolean transferGenKeyFileToEC2(Session session) {
-		// upload key
-		String fileUpLoadPath = ResourcesFolderUtility
-				.getPathFromResourceFolder(UploadController.class, GEN_KEY_FILE);
-
-		File localFile = new File(fileUpLoadPath);
-		boolean isTranferGenKeyCommandFileOk = transferDataToEc2UsingScp(
-				session, localFile, localFile.getName(), HOME_DIR_IN_EC2,
-				new byte[500]);
-		logger.info("Transfer key " + localFile.getName() + "to "
-				+ HOME_DIR_IN_EC2 + " is ok: " + isTranferGenKeyCommandFileOk);
-		return isTranferGenKeyCommandFileOk;
-	}
-
 	private static void generateKeyFileForVideoInEC2(Session session,
 			String videoName) throws JSchException, IOException {
 		Channel shellChannel = session.openChannel("shell");
 		StringBuilder command = new StringBuilder();
 		command.append("cd");
 		command.append(" ");
-		command.append(HOME_DIR_IN_EC2);
+		command.append("/usr/local/WowzaStreamingEngine/bin");
 		command.append("\n");
 
-		command.append("chmod 777");
-		command.append(" ");
+		// command.append("chmod 777");
+		// command.append(" ");
+		// command.append(GEN_KEY_FILE);
+		// command.append("\n");
+
+		command.append("./");
 		command.append(GEN_KEY_FILE);
+		command.append(" ");
+		command.append("ipod");
+		command.append(" ");
+		command.append(videoName);
+		command.append(" ");
+		command.append(GET_KEY_ADDRESS);
 		command.append("\n");
 
 		command.append("nohup");
 		command.append(" ");
-		command.append("./");
-		command.append(GEN_KEY_FILE);
+		command.append("mv");
 		command.append(" ");
-		command.append(videoName);
+		command.append(videoName + ".key");
+		command.append(" ");
+		command.append("/usr/local/WowzaStreamingEngine/keys/");
+		command.append(videoName + ".key");
 		command.append(" ");
 		command.append("&");
 		command.append("\n");
@@ -307,8 +305,9 @@ public class DataUploadUtility {
 
 	private static void executeChannel(Channel shellChannel, String command)
 			throws JSchException, IOException {
+		logger.info(command);
 		shellChannel.setInputStream(IOUtils.toInputStream(command, "UTF-8"));
-//		shellChannel.setOutputStream(System.out);
+		// shellChannel.setOutputStream(System.out);
 		shellChannel.connect();
 		try {
 			Thread.sleep(500);
@@ -325,6 +324,7 @@ public class DataUploadUtility {
 		Channel channel = null;
 		try {
 			channel = ss.openChannel("exec");
+
 			StringBuilder command = new StringBuilder();
 			command.append("scp -t");
 			command.append(" ");

@@ -74,7 +74,7 @@ App
 					});
 
 					$routeProvider.otherwise({
-						redirectTo : '/PhimBo'
+						redirectTo : '/PhimLe'
 					});
 
 					/*
@@ -324,6 +324,12 @@ App.run(function($rootScope, $location, $cookieStore, $http) {
 		window.location.reload(true);
 		$location.path("/Login");
 
+	};
+
+	// go to see starring detail
+	$rootScope.showStarringDetail = function(starring) {
+		sessionStorage.setItem("starringId", starring.id);
+		$location.path('/Starring');
 	};
 
 	$rootScope.categoriesS = [ {

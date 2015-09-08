@@ -68,27 +68,33 @@ var SerieController = function($scope, $rootScope, $http, $location, $modal,
 	var currentStarringIndex = 0;
 	$scope.nextStarring = function() {
 		var starringsToShow = [];
-		if (currentStarringIndex >= allStarring.length) {
-			currentStarringIndex = 0;
-		}
-		var i = 0;
-		var currentStarring = {};
-		for (i = currentStarringIndex; i < currentStarringIndex + 5; i++) {
-			currentStarring = allStarring[i];
-			if (currentStarring == null) {
-				currentStarring = allStarring[i - allStarring.length];
+		if (allStarring.length > 5) {
+			if (currentStarringIndex >= allStarring.length) {
+				currentStarringIndex = 0;
 			}
-			starringsToShow.push(currentStarring);
+			var i = 0;
+			var currentStarring = {};
+			for (i = currentStarringIndex; i < currentStarringIndex + 5; i++) {
+				currentStarring = allStarring[i];
+				if (currentStarring == null) {
+					currentStarring = allStarring[i - allStarring.length];
+				}
+				starringsToShow.push(currentStarring);
+			}
+			currentStarringIndex += 5;
+		} else {
+			for (i = 0; i < allStarring.length; i++) {
+				starringsToShow.push(allStarring[i]);
+			}
 		}
-		currentStarringIndex += 5;
 		$scope.starrings = starringsToShow;
 	};
 
 	// load relative movies
-	$rootScope.allRelativeMovies = [];
+	$scope.allRelativeMovies = [];
 	var loadRelativeMovie = function(movieId) {
 		FilmUtilityService.loadRelativeMovie(movieId).success(function(data) {
-			$rootScope.allRelativeMovies = data;
+			$scope.allRelativeMovies = data;
 			// show relative movie
 			$scope.nextRelativeMovies();
 		}).error(function(error) {
@@ -103,12 +109,12 @@ var SerieController = function($scope, $rootScope, $http, $location, $modal,
 	var currentRelativeMoviesIndex = 0;
 	$scope.nextRelativeMovies = function() {
 		relativeMovies = [];
-		if (currentRelativeMoviesIndex >= $rootScope.allRelativeMovies.length) {
+		if (currentRelativeMoviesIndex >= $scope.allRelativeMovies.length) {
 			currentRelativeMoviesIndex = 0;
 		}
 		var i = 0;
 		for (i = currentRelativeMoviesIndex; i < currentRelativeMoviesIndex + 5; i++) {
-			relativeMovies.push($rootScope.allRelativeMovies[i]);
+			relativeMovies.push($scope.allRelativeMovies[i]);
 		}
 		currentRelativeMoviesIndex += 5;
 		$scope.relativeMovies = relativeMovies;

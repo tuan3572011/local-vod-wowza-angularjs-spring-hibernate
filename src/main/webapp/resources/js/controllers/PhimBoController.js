@@ -3,35 +3,25 @@
  */
 var PhimBoController = function($scope, $location, $rootScope, $http) {
 	$scope.page = 1;
+	$scope.category = {
+		"id" : 13,
+		"name" : "Tất cả"
+	};
 
-	function loadAllSerieMovies() {
-		var req = {
-			method : 'GET',
-			url : 'PhimBoController/FilterBy/1/13/0/13/1',
-			headers : {
-				"Content-Type" : "application/json"
-			},
-		};
-		$http(req).success(function(data) {
-			$rootScope.movies = data;
-			getTotalPageNum();
-			doPaging($scope.page, $scope.totalPage);
-		});
-	}
-	loadAllSerieMovies();
+	$scope.country = {
+		"id" : 13,
+		"name" : "Tất cả"
+	};
 
-	function getTotalPageNum() {
-		var req = {
-			method : 'GET',
-			url : 'PhimBoController/GetTotalFilterPage/1/13/0/13/1',
-			headers : {
-				"Content-Type" : "application/json"
-			},
-		};
-		$http(req).success(function(data) {
-			$scope.totalPage = data;
-		});
-	}
+	$scope.publishYear = {
+		"id" : 0,
+		"name" : "Tất cả"
+	};
+
+	$scope.sort = {
+		"id" : 1,
+		"name" : "Lượt xem"
+	};
 
 	// ----------Paging-----------------------
 
@@ -75,18 +65,14 @@ var PhimBoController = function($scope, $location, $rootScope, $http) {
 			$scope.page = 1;
 		}
 		$scope.filterFilm();
-	}
+	};
 
 	$scope.filterFilm = function() {
-		var cateId = $scope.category.id;
-		var countryId = $scope.country.id;
-		var sortId = $scope.sort.id;
-		var year = $scope.publishYear.id;
-		var page = 1;
 		var req = {
 			method : 'GET',
-			url : 'PhimBoController/FilterBy/' + sortId + "/" + cateId + "/"
-					+ year + "/" + countryId + "/" + page,
+			url : 'PhimBoController/FilterBy/' + $scope.sort.id + "/"
+					+ $scope.category.id + "/" + $scope.publishYear.id + "/"
+					+ $scope.country.id + "/" + $scope.page,
 			headers : {
 				"Content-Type" : "application/json"
 			},
@@ -97,17 +83,14 @@ var PhimBoController = function($scope, $location, $rootScope, $http) {
 			doPaging($scope.page, $scope.totalPage);
 		});
 	};
+	$scope.filterFilm();
 
 	function getTotalFilterPage() {
-		var cateId = $scope.category.id;
-		var countryId = $scope.country.id;
-		var sortId = $scope.sort.id;
-		var year = $scope.publishYear.id;
-		var page = $scope.page;
 		var req = {
 			method : 'GET',
-			url : 'PhimBoController/GetTotalFilterPage/' + sortId + "/"
-					+ cateId + "/" + year + "/" + countryId + "/" + page,
+			url : 'PhimBoController/GetTotalFilterPage/' + $scope.sort.id + "/"
+					+ $scope.category.id + "/" + $scope.publishYear.id + "/"
+					+ $scope.country.id + "/" + $scope.page,
 			headers : {
 				"Content-Type" : "application/json"
 			},

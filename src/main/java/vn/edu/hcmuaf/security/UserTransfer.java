@@ -2,10 +2,6 @@ package vn.edu.hcmuaf.security;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import vn.edu.hcmuaf.service.LoginServiceImpl;
-
 public class UserTransfer {
 	
 	private final String email;

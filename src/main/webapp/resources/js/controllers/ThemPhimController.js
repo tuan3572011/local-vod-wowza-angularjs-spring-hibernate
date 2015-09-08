@@ -44,15 +44,6 @@ var ThemPhimController = function($scope, $http) {
 		}
 	};
 
-	// get category
-	$http.post('GetJsonController/Category').success(function(data) {
-		$scope.categoriesS = data;
-	});
-	// get country
-	$http.post('GetJsonController/Country').success(function(data) {
-		$scope.countriesS = data;
-	});
-
 	// save movie serie
 	$scope.addSerieMovie = function(serie) {
 		var serieInfo = sessionStorage.getItem("info");
@@ -74,12 +65,12 @@ var ThemPhimController = function($scope, $http) {
 		// + serie.numEpisodes + serie.info);
 
 		$http(req).success(function() {
-			console.log("OK");
+			alert("OK");
 			// if save movieSerie Success, update movie serie list in add
 			// episode
 			$scope.updateMovieSeriesJson();
 		}).error(function(response) {
-			console.error(response);
+			alert(response);
 		});
 	};
 
@@ -93,10 +84,19 @@ var ThemPhimController = function($scope, $http) {
 
 		console.log("bg");
 		console.log("name " + movie.movie.name);
+		console.log("EngName " + movie.movie.engName);
+		console.log("vnName " + movie.movie.vnName);
+		console.log("IMDB " + movie.movie.imdb);
+		console.log("publishedYear " + movie.movie.publishedYear);
+		console.log("price " + movie.movie.price);
 		console.log("key " + movie.movie.movie_key);
 		console.log("image " + movie.movie.image);
 		console.log("info" + movie.movie.info);
 		console.log("trailer" + movie.movie.trailer);
+		console.log("starrings " + movie.movie.starrings[0].name);
+		console.log("director " + movie.movie.director.name);
+		console.log("countries " + movie.movie.countries[0].name);
+		console.log("categories " + movie.movie.categories[0].name);
 		var req = {
 			method : 'POST',
 			url : 'ThemPhimController/Movie/Save',
@@ -106,9 +106,9 @@ var ThemPhimController = function($scope, $http) {
 			data : movie
 		};
 		$http(req).success(function() {
-			console.log("OK");
+			alert("OK");
 		}).error(function(error) {
-			console.error(error);
+			alert(error);
 		});
 	};
 
@@ -127,9 +127,9 @@ var ThemPhimController = function($scope, $http) {
 			data : episode
 		};
 		$http(req).success(function() {
-			console.log("OK");
+			alert("OK");
 		}).error(function(error) {
-			console.error(error);
+			alert(error);
 		});
 	};
 

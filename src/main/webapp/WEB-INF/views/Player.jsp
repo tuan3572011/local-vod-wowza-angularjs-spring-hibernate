@@ -148,9 +148,10 @@ p.wrapBlock {
 					<br />
 					<div class="row">
 						<div class="col-xs-12 col-md-6  col-lg-2"
-							ng-repeat="starring in starrings " style="margin-right: 5px">
+							ng-repeat="starring in starrings track by starring.id"
+							style="margin-right: 5px">
 							<div class="image-container"
-								data-ng-click="showStarringDetail(starring.id)">
+								data-ng-click="showStarringDetail(starring)">
 								<div class="capt-fix-act">
 									<div class="caption" style="width: 110px; height: 110px">
 										<h4>{{starring.name}}</h4>
@@ -370,7 +371,7 @@ p.wrapBlock {
 						function() {
 							var source = '<video width="930" height="500" controls  id="video" class="video-js vjs-default-skin" preload="none" >';
 							source = source
-									+ '<source src="http://54.255.224.27:1935/vod-project/Microsoft/playlist.m3u" type="application/x-mpegurl" id="videoSource" /> </video>';
+									+ '<source src="http://192.168.0.106:1935/project/Microsoft/playlist.m3u" type="application/x-mpegurl" id="videoSource" /> </video>';
 							source = source + " ";
 							var videoName = sessionStorage.getItem("source");
 							source = source.replace("Microsoft", videoName);
@@ -391,7 +392,7 @@ p.wrapBlock {
 
 							var source = '<video width="930" height="500" controls  id="video" class="video-js vjs-default-skin" preload="none" >';
 							source = source
-									+ '<source src="http://192.168.1.26:1935/project/Microsoft/playlist.m3u"  type="application/x-mpegurl" id="videoSource" /> </video>';
+									+ '<source src="http://192.168.0.106:1935/project/Microsoft/playlist.m3u"  type="application/x-mpegurl" id="videoSource" /> </video>';
 							source = source + " ";
 							// 55.255.244.27 -- vod-project
 							var videoName = sessionStorage.getItem("source");

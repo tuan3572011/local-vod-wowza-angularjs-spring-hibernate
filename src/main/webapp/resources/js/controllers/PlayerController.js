@@ -36,19 +36,30 @@ var PlayerController = function($scope, $http, $location, $rootScope, $route,
 	};
 
 	// create function to show starrings when click next btn
-	var starring = [];
 	var currentStarringIndex = 0;
 	$scope.nextStarring = function() {
-		starring = [];
-		if (currentStarringIndex >= allStarring.length) {
-			currentStarringIndex = 0;
+		var starringsToShow = [];
+		if (allStarring.length > 5) {
+			if (currentStarringIndex >= allStarring.length) {
+				currentStarringIndex = 0;
+			}
+			var i = 0;
+			var currentStarring = {};
+			for (i = currentStarringIndex; i < currentStarringIndex + 5; i++) {
+				currentStarring = allStarring[i];
+				if (currentStarring == null) {
+					currentStarring = allStarring[i - allStarring.length];
+				}
+				starringsToShow.push(currentStarring);
+			}
+			currentStarringIndex += 5;
+		} else {
+			for (i = 0; i < allStarring.length; i++) {
+				starringsToShow.push(allStarring[i]);
+			}
 		}
-		var i = 0;
-		for (i = currentStarringIndex; i < currentStarringIndex + 5; i++) {
-			starring.push(allStarring[i]);
-		}
-		currentStarringIndex += 5;
-		$scope.starrings = starring;
+		$scope.starrings = starringsToShow;
+
 	};
 
 	// create function to show relative movie when click next btn

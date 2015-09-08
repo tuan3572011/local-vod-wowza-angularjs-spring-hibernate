@@ -3,35 +3,54 @@
  */
 var PhimLeController = function($scope, $http, $location, $rootScope) {
 	$scope.page = 1;
-	// ---------Load all movie---------------
-	function loadAllMovies() {
-		var req = {
-			method : 'GET',
-			url : 'PhimLeController/FilterBy/1/13/0/13/1',
-			headers : {
-				"Content-Type" : "application/json"
-			},
-		};
-		$http(req).success(function(data) {
-			$rootScope.movies = data;
-			getTotalPageNum();
-			doPaging($scope.page, $scope.totalPage);
-		});
-	}
-	loadAllMovies();
-	function getTotalPageNum() {
-		var req = {
-			method : 'GET',
-			url : 'PhimLeController/GetTotalFilterPage/1/13/0/13/1',
-			headers : {
-				"Content-Type" : "application/json"
-			},
-		};
-		$http(req).success(function(data) {
-			$scope.totalPage = data;
-		});
-	}
+	$scope.category = {
+		"id" : 13,
+		"name" : "Tất cả"
+	};
 
+	$scope.country = {
+		"id" : 13,
+		"name" : "Tất cả"
+	};
+
+	$scope.publishYear = {
+		"id" : 0,
+		"name" : "Tất cả"
+	};
+
+	$scope.sort = {
+		"id" : 1,
+		"name" : "Lượt xem"
+	};
+
+	// ---------Load all movie---------------
+	// function loadAllMovies() {
+	// var req = {
+	// method : 'GET',
+	// url : 'PhimLeController/FilterBy/1/13/0/13/1',
+	// headers : {
+	// "Content-Type" : "application/json"
+	// },
+	// };
+	// $http(req).success(function(data) {
+	// $rootScope.movies = data;
+	// getTotalPageNum();
+	// doPaging($scope.page, $scope.totalPage);
+	// });
+	// }
+	// loadAllMovies();
+	// function getTotalPageNum() {
+	// var req = {
+	// method : 'GET',
+	// url : 'PhimLeController/GetTotalFilterPage/1/13/0/13/1',
+	// headers : {
+	// "Content-Type" : "application/json"
+	// },
+	// };
+	// $http(req).success(function(data) {
+	// $scope.totalPage = data;
+	// });
+	// }
 	// ----------Paging-----------------------
 
 	function doPaging(page, totalPage) {
@@ -74,20 +93,15 @@ var PhimLeController = function($scope, $http, $location, $rootScope) {
 			$scope.page = 1;
 		}
 		$scope.filterFilm();
-	}
+	};
 
 	// -------------Filter film--------------------
 	$scope.filterFilm = function() {
-
-		var cateId = $scope.category.id;
-		var countryId = $scope.country.id;
-		var sortId = $scope.sort.id;
-		var year = $scope.publishYear.id;
-		var page = $scope.page;
 		var req = {
 			method : 'GET',
-			url : 'PhimLeController/FilterBy/' + sortId + "/" + cateId + "/"
-					+ year + "/" + countryId + "/" + page,
+			url : 'PhimLeController/FilterBy/' + $scope.sort.id + "/"
+					+ $scope.category.id + "/" + $scope.publishYear.id + "/"
+					+ $scope.country.id + "/" + $scope.page,
 			headers : {
 				"Content-Type" : "application/json"
 			},
@@ -98,18 +112,14 @@ var PhimLeController = function($scope, $http, $location, $rootScope) {
 			doPaging($scope.page, $scope.totalPage);
 		});
 	};
-
+	$scope.filterFilm();
 	// ---------Get all page-----------------
 	function getTotalFilterPage() {
-		var cateId = $scope.category.id;
-		var countryId = $scope.country.id;
-		var sortId = $scope.sort.id;
-		var year = $scope.publishYear.id;
-		var page = $scope.page;
 		var req = {
 			method : 'GET',
-			url : 'PhimLeController/GetTotalFilterPage/' + sortId + "/"
-					+ cateId + "/" + year + "/" + countryId + "/" + page,
+			url : 'PhimLeController/GetTotalFilterPage/' + $scope.sort.id + "/"
+					+ $scope.category.id + "/" + $scope.publishYear.id + "/"
+					+ $scope.country.id + "/" + $scope.page,
 			headers : {
 				"Content-Type" : "application/json"
 			},

@@ -113,10 +113,11 @@ p.wrapBlock {
 					<div style="margin: auto;">
 						<div align="left">
 							<div class="row">
-								<div class="col-lg-2" ng-repeat="starring in starrings "
+								<div class="col-lg-2"
+									ng-repeat="starring in starrings track by starring.id"
 									style="margin-right: 10px">
 									<div class="image-container"
-										data-ng-click="showStarringDetail(starring.id)">
+										data-ng-click="showStarringDetail(starring)">
 										<div class="capt-fix-act">
 											<div class="caption"
 												style="width: 110px; height: 110px; left: 15px;">
@@ -178,7 +179,8 @@ p.wrapBlock {
 					<label style="font-size: 30px">Phim Liên Quan</label>
 				</legend>
 				<div class="row">
-					<div class="col-lg-2 col2-fix" ng-repeat="movie in relativeMovies">
+					<div class="col-lg-2 col2-fix"
+						ng-repeat="movie in relativeMovies track by movie.id">
 						<div class="image-container"
 							data-ng-click="showMovieDetail(movie.id)">
 							<div class="capt-fix-act2">
@@ -223,7 +225,8 @@ p.wrapBlock {
 					<label style="font-size: 30px">Phim Hot</label>
 				</legend>
 				<div class="row">
-					<div class="col-lg-2 col2-fix" ng-repeat="movie in hotMovies">
+					<div class="col-lg-2 col2-fix"
+						ng-repeat="movie in hotMovies track by movie.id">
 						<div class="image-container">
 							<div class="capt-fix-act2">
 								<div style="cursor: pointer;" class="caption img-detail"

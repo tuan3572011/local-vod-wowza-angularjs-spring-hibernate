@@ -43,20 +43,27 @@ var ChiTietController = function($scope, $http, $location, $modal, $rootScope,
 	var currentStarringIndex = 0;
 	$scope.nextStarring = function() {
 		var starringsToShow = [];
-		if (currentStarringIndex >= allStarring.length) {
-			currentStarringIndex = 0;
-		}
-		var i = 0;
-		var currentStarring = {};
-		for (i = currentStarringIndex; i < currentStarringIndex + 5; i++) {
-			currentStarring = allStarring[i];
-			if (currentStarring == null) {
-				currentStarring = allStarring[i - allStarring.length];
+		if (allStarring.length > 5) {
+			if (currentStarringIndex >= allStarring.length) {
+				currentStarringIndex = 0;
 			}
-			starringsToShow.push(currentStarring);
+			var i = 0;
+			var currentStarring = {};
+			for (i = currentStarringIndex; i < currentStarringIndex + 5; i++) {
+				currentStarring = allStarring[i];
+				if (currentStarring == null) {
+					currentStarring = allStarring[i - allStarring.length];
+				}
+				starringsToShow.push(currentStarring);
+			}
+			currentStarringIndex += 5;
+		} else {
+			for (i = 0; i < allStarring.length; i++) {
+				starringsToShow.push(allStarring[i]);
+			}
 		}
-		currentStarringIndex += 5;
 		$scope.starrings = starringsToShow;
+
 	};
 
 	// load relative movies
@@ -90,7 +97,6 @@ var ChiTietController = function($scope, $http, $location, $modal, $rootScope,
 	};
 
 	// load hot movies
-	// $rootScope.allHotMovies = [];
 	var loadHotMovie = function(movie) {
 		FilmUtilityService.loadHotMovie().success(function(data) {
 			$rootScope.allHotMovies = data;
@@ -133,11 +139,6 @@ var ChiTietController = function($scope, $http, $location, $modal, $rootScope,
 		});
 	};
 
-	// go to see starring detail
-	$scope.showStarringDetail = function(starring) {
-		sessionStorage.setItem("starringId", starring.id);
-		$location.path('/Starring');
-	};
 
 	// Open dialog register film
 	$scope.openRegisterDialog = function(film) {

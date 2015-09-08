@@ -8,23 +8,22 @@ import javax.servlet.ServletContextListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 
 import vn.edu.hcmuaf.controller.PhimLeController;
 
 /**
  * Application Lifecycle Listener implementation class ConfigServiceAndDBAddress
- *
+ * 
  */
 public class ConfigServiceAndDBAddress implements ServletContextListener {
 	public static String streamingServerAddress = "";
 	public static String resfulServerAddress = "";
 	public static String imageServerAddress = "";
-	public static String imagePathInServer="";
+	public static String imagePathInServer = "";
+	public static String urlGetKey = "";
 
-	private Logger logger = LoggerFactory.getLogger(ConfigServiceAndDBAddress.class);
+	private Logger logger = LoggerFactory
+			.getLogger(ConfigServiceAndDBAddress.class);
 
 	/*
 	 * (non-Javadoc)
@@ -50,18 +49,24 @@ public class ConfigServiceAndDBAddress implements ServletContextListener {
 
 		Properties properties = new Properties();
 		try {
-			properties.load(PhimLeController.class.getResourceAsStream("/serverAddressConfig.properties"));
+			properties.load(PhimLeController.class
+					.getResourceAsStream("/serverAddressConfig.properties"));
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
-		streamingServerAddress = properties.getProperty("StreamingServerAddress").trim();
-		resfulServerAddress = properties.getProperty("ResfulServerAddress").trim();
-		imageServerAddress = properties.getProperty("ImageServerAddress").trim();
-		imagePathInServer= properties.getProperty("ImagePathInServer").trim();
+		streamingServerAddress = properties.getProperty(
+				"StreamingServerAddress").trim();
+		resfulServerAddress = properties.getProperty("ResfulServerAddress")
+				.trim();
+		imageServerAddress = properties.getProperty("ImageServerAddress")
+				.trim();
+		imagePathInServer = properties.getProperty("ImagePathInServer").trim();
+		urlGetKey = properties.getProperty("UrlGetKey").trim();
 
-		System.out.println("IP ADDRESS OF ALL SERVER" + streamingServerAddress + resfulServerAddress
-				+ imageServerAddress);
-		logger.info("IP ADDRESS OF ALL SERVER" + streamingServerAddress + resfulServerAddress + imageServerAddress);
+		System.out.println("IP ADDRESS OF ALL SERVER" + streamingServerAddress
+				+ resfulServerAddress + imageServerAddress);
+		logger.info("IP ADDRESS OF ALL SERVER" + streamingServerAddress
+				+ resfulServerAddress + imageServerAddress);
 
 	}
 

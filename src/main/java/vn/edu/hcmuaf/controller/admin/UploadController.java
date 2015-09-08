@@ -3,15 +3,9 @@ package vn.edu.hcmuaf.controller.admin;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.servlet.ServletContext;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import vn.edu.hcmuaf.initListenner.ConfigServiceAndDBAddress;
 import vn.edu.hcmuaf.util.DataUploadUtility;
-import vn.edu.hcmuaf.util.ResourcesFolderUtility;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -136,21 +129,17 @@ public class UploadController {
 			InputStream videoInputStream, String videoName,
 			InputStream keyInputStream) {
 
-		// get key path
-		String pathToKey = ResourcesFolderUtility.getPathFromResourceFolder(
-				UploadController.class, "vod1.pem");
-		logger.info(pathToKey);
 		// open jsch session
 		Session jschSession = null;
 		try {
-			jschSession = getJschSession(pathToKey, hostAndUser);
-			logger.info(pathToKey + "----" + hostAndUser);
+			jschSession = getJschSession("vod1.pem", hostAndUser);
+			logger.info(hostAndUser);
 			jschSession.connect();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
 		// tranfer genkey file to server
-		DataUploadUtility.transferGenKeyFileToEC2(jschSession);
+		// DataUploadUtility.transferGenKeyFileToEC2(jschSession);
 		// upload video using this session
 		logger.info(jschSession.getHost() + jschSession.getUserName());
 		DataUploadUtility.uploadVideoToWowza(jschSession, videoName,

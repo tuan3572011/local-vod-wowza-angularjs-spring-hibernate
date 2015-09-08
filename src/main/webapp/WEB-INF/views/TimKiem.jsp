@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	<!-- SEARCH -->
-	
+
 	<div class="thumbnail thumb-fix2" ng-if="result != 0">
 		<div class="row">
 			<div class="clg-lg-12">
@@ -38,8 +38,7 @@
 										<a href='{{movie.trailer}}' data-toggle="lightbox"
 											data-gallery="youtubevideos" class="btn btn-success">
 											Trailer</a><a class="btn btn-info"
-											data-ng-click="Redirect(movie.id,movie.type)">Chi
-											tiết</a>
+											data-ng-click="Redirect(movie.id,movie.type)">Chi tiết</a>
 									</footer>
 									<!-- /.modal-content -->
 								</div>
@@ -62,18 +61,6 @@
 							</div>
 						</div>
 					</div>
-					<div style="padding-left: 30%;">
-						<form>
-							<input type="submit" name="home" value="&lt;&lt;"
-								class="button rounded" /><input type="submit" name="prev"
-								value="&lt;" class="button rounded" /> <input
-								class="form-control" type="text" name="page"
-								style="width: 50px;" />&nbsp; of <span>11 &nbsp;</span> <input
-								class="button rounded" type="submit" name="next" value="&gt;" /><input
-								class="button rounded" type="submit" name="home"
-								value="&gt;&gt;" />
-						</form>
-					</div>
 				</article>
 			</div>
 		</div>
@@ -81,18 +68,19 @@
 	<!-- end SEARCH -->
 	<hr>
 	<!-- Phim hot -->
-	<article>
+	<article ng-controller="FilmRedirectController">
 		<div class="thumbnail thumb-fix2">
 			<fieldset>
 				<legend>
 					<label style="font-size: 30px">Phim Hot</label>
 				</legend>
 				<div class="row">
-					<div class="col-lg-2 col2-fix" ng-repeat="movie in hotMovies">
-						<div class="image-container"
-							data-ng-click="showMovieDetail(movie.id)">
+					<div class="col-lg-2 col2-fix"
+						ng-repeat="movie in hotMovies track by movie.id">
+						<div class="image-container">
 							<div class="capt-fix-act2">
-								<div class="caption img-detail">
+								<div style="cursor: pointer;" class="caption img-detail"
+									ng-click="Redirect(movie.id,movie.type)">
 									<h4>{{movie.vnName}}</h4>
 									<!-- /.modal-content -->
 								</div>
